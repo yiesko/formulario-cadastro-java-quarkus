@@ -1,0 +1,26 @@
+[versions]
+quarkus = "3.28.5"
+quarkus-resteasy-reactive = "3.9.5"
+quarkus-resteasy-reactive-qute = "3.9.5"
+rest-assured = "5.5.6"
+lombok = "1.18.42"
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
+
+[libraries]
+quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
+quarkus-arc = { module = "io.quarkus:quarkus-arc", version.ref = "quarkus" }
+quarkus-resteasy-reactive = { module = "io.quarkus:quarkus-resteasy-reactive", version.ref = "quarkus-resteasy-reactive" }
+quarkus-resteasy-reactive-qute = { module = "io.quarkus:quarkus-resteasy-reactive-qute", version.ref = "quarkus-resteasy-reactive-qute" }
+quarkus-qute = { module = "io.quarkus:quarkus-qute", version.ref = "quarkus" }
+quarkus-hibernate-orm-panache = { module = "io.quarkus:quarkus-hibernate-orm-panache", version.ref = "quarkus" }
+quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator", version.ref = "quarkus" }
+quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson", version.ref = "quarkus" }
+quarkus-jdbc-mariadb = { module = "io.quarkus:quarkus-jdbc-mariadb", version.ref = "quarkus" }
+quarkus-smallrye-openapi = { module = "io.quarkus:quarkus-smallrye-openapi", version.ref = "quarkus" }
+quarkus-smallrye-health = { module = "io.quarkus:quarkus-smallrye-health", version.ref = "quarkus" }
+quarkus-junit5 = { module = "io.quarkus:quarkus-junit5", version.ref = "quarkus" }
+quarkus-jdbc-h2 = { module = "io.quarkus:quarkus-jdbc-h2", version.ref = "quarkus" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }

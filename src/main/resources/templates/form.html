@@ -1,0 +1,261 @@
+{#include layout}
+{#title}Formulário de Cadastro{/title}
+{#body}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card p-4 border rounded-3" style="border-color: #dadce0 !important;">
+                <div class="card-body">
+                    <h1 class="mb-4 text-center">
+                        <i class="bi bi-journal-text me-2"></i>
+                        Formulário de cadastro
+                    </h1>
+                    <p class="text-muted mb-4">
+                        Preencha os dados abaixo para conhecermos você melhor.
+                    </p>
+
+                    {#if successMessage}
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <div>{successMessage}</div>
+                    </div>
+                    {/if}
+
+                    {#if hasErrors}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <div>Revise os campos destacados antes de enviar novamente.</div>
+                    </div>
+                    {/if}
+
+                    <form action="/" method="post" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="nomeCompleto">
+                                <i class="bi bi-person-vcard me-1"></i>Nome completo
+                            </label>
+                            <input
+                                    class="form-control{#if errors.get('nomeCompleto').orEmpty} is-invalid{/if}"
+                                    id="nomeCompleto"
+                                    name="nomeCompleto"
+                                    placeholder="Digite seu nome completo"
+                                    type="text"
+                                    value="{form.nomeCompleto ?: ''}"
+                            />
+                            {#if errors.get('nomeCompleto').orEmpty}
+                            <div class="invalid-feedback">{errors.get('nomeCompleto')}</div>
+                            {#else}
+                            <div class="form-text">O nome deve conter apenas letras, espaços, hífens e apóstrofos.</div>
+                            {/if}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="endereco">
+                                <i class="bi bi-geo-alt me-1"></i>Endereço
+                            </label>
+                            <input
+                                    class="form-control{#if errors.get('endereco').orEmpty} is-invalid{/if}"
+                                    id="endereco"
+                                    name="endereco"
+                                    placeholder="Digite seu endereço completo"
+                                    type="text"
+                                    value="{form.endereco ?: ''}"
+                            />
+                            {#if errors.get('endereco').orEmpty}
+                            <div class="invalid-feedback">{errors.get('endereco')}</div>
+                            {#else}
+                            <div class="form-text">Exemplo: Rua das Flores, 123, Bairro Centro</div>
+                            {/if}
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label" for="rua">
+                                    <i class="bi bi-signpost-split me-1"></i>Rua
+                                </label>
+                                <input
+                                        class="form-control{#if errors.get('rua').orEmpty} is-invalid{/if}"
+                                        id="rua"
+                                        name="rua"
+                                        placeholder="Informe a rua"
+                                        type="text"
+                                        value="{form.rua ?: ''}"
+                                />
+                                {#if errors.get('rua').orEmpty}
+                                <div class="invalid-feedback">{errors.get('rua')}</div>
+                                {#else}
+                                <div class="form-text">Nome da rua, avenida ou travessa</div>
+                                {/if}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="numero">
+                                    <i class="bi bi-hash me-1"></i>Número
+                                </label>
+                                <input
+                                        class="form-control{#if errors.get('numero').orEmpty} is-invalid{/if}"
+                                        id="numero"
+                                        name="numero"
+                                        placeholder="Nº da casa ou apto"
+                                        type="text"
+                                        value="{form.numero ?: ''}"
+                                />
+                                {#if errors.get('numero').orEmpty}
+                                <div class="invalid-feedback">{errors.get('numero')}</div>
+                                {#else}
+                                <div class="form-text">Ex: 123, S/N, Apto 45</div>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="dataNascimento">
+                                <i class="bi bi-calendar-heart me-1"></i>Data de nascimento
+                            </label>
+                            <input
+                                    class="form-control{#if errors.get('dataNascimento').orEmpty} is-invalid{/if}"
+                                    id="dataNascimento"
+                                    max="{today}"
+                                    min="1900-01-01"
+                                    name="dataNascimento"
+                                    type="date"
+                                    value="{form.dataNascimento ?: ''}"
+                            />
+                            {#if errors.get('dataNascimento').orEmpty}
+                            <div class="invalid-feedback">{errors.get('dataNascimento')}</div>
+                            {#else}
+                            <div class="form-text">Use o formato AAAA-MM-DD (ex: 1990-05-15)</div>
+                            {/if}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="email">
+                                <i class="bi bi-envelope-at me-1"></i>E-mail
+                            </label>
+                            <input
+                                    class="form-control{#if errors.get('email').orEmpty} is-invalid{/if}"
+                                    id="email"
+                                    maxlength="180"
+                                    name="email"
+                                    placeholder="exemplo@dominio.com"
+                                    type="email"
+                                    value="{form.email ?: ''}"
+                            />
+                            {#if errors.get('email').orEmpty}
+                            <div class="invalid-feedback">{errors.get('email')}</div>
+                            {#else}
+                            <div class="form-text">Digite um e-mail válido com @ e domínio (ex: yiesko@gmail.com)</div>
+                            {/if}
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-sm-8">
+                                <label class="form-label" for="cidade">
+                                    <i class="bi bi-building me-1"></i>Cidade
+                                </label>
+                                <input
+                                        class="form-control{#if errors.get('cidade').orEmpty} is-invalid{/if}"
+                                        id="cidade"
+                                        name="cidade"
+                                        placeholder="Onde tu mora"
+                                        type="text"
+                                        value="{form.cidade ?: ''}"
+                                />
+                                {#if errors.get('cidade').orEmpty}
+                                <div class="invalid-feedback">{errors.get('cidade')}</div>
+                                {#else}
+                                <div class="form-text">Nome da sua cidade (Ex: Teresina)</div>
+                                {/if}
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label" for="estado">
+                                    <i class="bi bi-flag me-1"></i>Estado
+                                </label>
+                                <input
+                                        class="form-control{#if errors.get('estado').orEmpty} is-invalid{/if}"
+                                        id="estado"
+                                        maxlength="2"
+                                        name="estado"
+                                        placeholder="UF"
+                                        style="text-transform: uppercase;"
+                                        type="text"
+                                        value="{form.estado ?: ''}"
+                                />
+                                {#if errors.get('estado').orEmpty}
+                                <div class="invalid-feedback">{errors.get('estado')}</div>
+                                {#else}
+                                <div class="form-text">Ex: PI, SP, RJ</div>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input
+                                    class="form-check-input{#if errors.get('aceite').orEmpty} is-invalid{/if}"
+                                    id="aceite"
+                                    name="aceite"
+                                    type="checkbox"
+                                    value="true"
+                                    {#if form.aceite}checked{/if}
+                            />
+                            <label class="form-check-label" for="aceite">
+                                <i class="bi bi-patch-check me-1"></i>Confirmo que eu sou quem estou informando ser
+                            </label>
+                            {#if errors.get('aceite').orEmpty}
+                            <div class="invalid-feedback d-block">{errors.get('aceite')}</div>
+                            {#else}
+                            <div class="form-text">Você deve aceitar os termos para enviar o formulário.</div>
+                            {/if}
+                        </div>
+
+                        <button class="btn btn-primary w-100 mt-2" type="submit">
+                            <i class="bi bi-send-plus me-1"></i>Cadastrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-10">
+            <div class="card border rounded-3" style="border-color: #dadce0 !important;">
+                <div class="card-header bg-white" style="border-bottom: 1px solid #dadce0 !important;">
+                    <h2 class="h5 mb-0">
+                        <i class="bi bi-people me-2"></i>Últimos cadastros
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {#if registrations.isEmpty}
+                    <p class="text-muted mb-0">Nenhum cadastro realizado até o momento.</p>
+                    {#else}
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Cidade/UF</th>
+                                <th>Data de nascimento</th>
+                                <th>Cadastro em</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {#for item in registrations}
+                            <tr>
+                                <td>{item.fullName}</td>
+                                <td>{item.email ?: "-"}</td>
+                                <td>{item.city ?: "-"}{#if item.state} / {item.state}{/if}</td>
+                                <td>{item.birthDateFormatted}</td>
+                                <td>{item.createdAtFormatted}</td>
+                            </tr>
+                            {/for}
+                            </tbody>
+                        </table>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/body}
+{/include}

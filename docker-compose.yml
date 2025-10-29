@@ -1,0 +1,60 @@
+services:
+  mariadb:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: adsforms
+      MARIADB_USER: adsforms
+      MARIADB_PASSWORD: adsforms
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+        reservations:
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - ads-forms-network
+
+  quarkus-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:mariadb://mariadb:3306/adsforms
+      QUARKUS_DATASOURCE_USERNAME: adsforms
+      QUARKUS_DATASOURCE_PASSWORD: adsforms
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 640M
+        reservations:
+          memory: 512M
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - ads-forms-network
+
+volumes:
+  mariadb-data:
+
+networks:
+  ads-forms-network:
+    driver: bridge
+    name: ads-forms-network
