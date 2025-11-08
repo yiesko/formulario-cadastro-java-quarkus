@@ -51,7 +51,7 @@ public class RegistrationFormRequest {
     public String dataNascimento;
 
     @RestForm("email")
-    @ValidEmail(message = "Informe um e-mail válido.")
+    @ValidEmail()
     public String email;
 
     @RestForm("cidade")
