@@ -19,7 +19,7 @@ public class RegistrationFormService {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+            DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm")
                     .withZone(ZoneId.systemDefault());
     @Inject
     RegistrationFormRepository repository;

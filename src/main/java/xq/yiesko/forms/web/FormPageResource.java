@@ -81,7 +81,7 @@ public class FormPageResource {
             Map<String, String> errors,
             String successMessage
     ) {
-        var registrations = service.listLatest(10);
+        var registrations = service.listLatest(5);
         return form.data("form", formData)
                 .data("errors", errors)
                 .data("successMessage", successMessage)
