@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public @interface ValidDate {
-    String message() default "Use o formato AAAA-MM-DD (ex: 1990-05-15) e escolha uma data válida.";
+    String message() default "Use o formato DD-MM-AAAA (ex: 15-05-1990) e escolha uma data válida.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

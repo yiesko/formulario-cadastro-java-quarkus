@@ -27,7 +27,7 @@ class FormPageResourceTest {
                 .formParam("endereco", "Rua A, 123")
                 .formParam("rua", "Rua A")
                 .formParam("numero", "123")
-                .formParam("dataNascimento", "2000-01-01")
+                .formParam("dataNascimento", "01-01-2000")
                 .formParam("email", "fulano@example.com")
                 .formParam("cidade", "Porto Alegre")
                 .formParam("estado", "RS")

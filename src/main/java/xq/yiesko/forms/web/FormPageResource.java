@@ -14,6 +14,7 @@ import xq.yiesko.forms.web.validation.AcceptTerms;
 import xq.yiesko.forms.web.validation.ValidDate;
 import xq.yiesko.forms.web.validation.ValidEmail;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -86,7 +87,7 @@ public class FormPageResource {
                 .data("successMessage", successMessage)
                 .data("hasErrors", !errors.isEmpty())
                 .data("registrations", registrations)
-                .data("today", java.time.LocalDate.now().toString());
+                .data("today", LocalDate.now());
     }
 
     private Map<String, String> collectErrors(

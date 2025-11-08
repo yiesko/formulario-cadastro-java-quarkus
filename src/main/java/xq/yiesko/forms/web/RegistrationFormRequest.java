@@ -9,8 +9,9 @@ import xq.yiesko.forms.web.validation.ValidDate;
 import xq.yiesko.forms.web.validation.ValidEmail;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
+import static xq.yiesko.forms.web.validation.ValidDateValidator.formatForInput;
+import static xq.yiesko.forms.web.validation.ValidDateValidator.parseOrNull;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class RegistrationFormRequest {
@@ -47,7 +48,7 @@ public class RegistrationFormRequest {
 
     @RestForm("dataNascimento")
     @NotBlank(message = "Informe a data de nascimento.")
-    @ValidDate(message = "Use o formato AAAA-MM-DD (ex: 1990-05-15) e verifique se a data é válida.")
+    @ValidDate(message = "Use o formato DD-MM-AAAA (ex: 15-05-1990) e verifique se a data é válida.")
     public String dataNascimento;
 
     @RestForm("email")
@@ -90,11 +91,11 @@ public class RegistrationFormRequest {
         var raw = trimToNull(dataNascimento);
         if (raw == null) return null;
 
-        try {
-            return LocalDate.parse(raw, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (DateTimeParseException ignored) {
-            return null;
-        }
+        var parsed = parseOrNull(raw);
+
+        if (parsed != null) dataNascimento = formatForInput(parsed);
+
+        return parsed;
     }
 
     public RegistrationFormRequest withDefaults() {
