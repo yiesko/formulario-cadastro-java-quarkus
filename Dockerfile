@@ -2,6 +2,10 @@ FROM eclipse-temurin:23-jdk-alpine AS builder
 
 WORKDIR /build
 
+RUN apk add --no-cache tzdata
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 COPY gradlew gradlew.bat ./
 COPY gradle gradle
 COPY build.gradle.kts settings.gradle.kts gradle.properties ./
