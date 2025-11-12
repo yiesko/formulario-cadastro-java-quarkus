@@ -1,9 +1,9 @@
 # Formulário de Cadastro
 
-Protótipo de formulário cadastral desenvolvido para a disciplina do Prof. Vinícius (14/10/2025), seguindo para a última fase (observação: sem utilização de JavaScript por parte de fetch/request, já que é tudo feito por server-side, o mesmo permitiu). O objetivo é executar um fluxo completo de cadastro com validações no backend e renderização server-side.
+Protótipo de formulário cadastral desenvolvido para a disciplina do Prof. Vinícius (14/10/2025), seguindo para a última fase. O objetivo é executar um fluxo completo de cadastro com validações no backend e renderização server-side.
 
 ## Tecnologias utilizadas
-- Java 23 com Quarkus e RESTEasy Reactive
+- Java 25 com Quarkus e RESTEasy Reactive
 - Qute para templating de páginas HTML
 - Hibernate ORM com validações Bean Validation
 - MariaDB em container Docker para persistência
