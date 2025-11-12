@@ -1,4 +1,4 @@
-FROM eclipse-temurin:23-jdk-alpine AS builder
+FROM eclipse-temurin:25-jdk-alpine AS builder
 
 WORKDIR /build
 
@@ -15,7 +15,7 @@ COPY src src
 RUN chmod +x ./gradlew && \
     ./gradlew clean build -Dquarkus.package.type=fast-jar -x test --no-daemon
 
-FROM eclipse-temurin:23-jre-alpine AS runtime
+FROM eclipse-temurin:25-jre-alpine AS runtime
 
 WORKDIR /work/
 RUN addgroup -S quarkus && adduser -S quarkus -G quarkus
