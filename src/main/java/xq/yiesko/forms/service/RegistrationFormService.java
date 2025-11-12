@@ -56,6 +56,11 @@ public class RegistrationFormService {
                 .toList();
     }
 
+    @Transactional
+    public boolean deleteById(Long id) {
+        return repository.deleteById(id);
+    }
+
     private RegistrationFormSummary toSummary(
             RegistrationForm entity
     ) {

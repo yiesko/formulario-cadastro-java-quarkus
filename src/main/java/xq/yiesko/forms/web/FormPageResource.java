@@ -3,6 +3,7 @@ package xq.yiesko.forms.web;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,6 +15,7 @@ import xq.yiesko.forms.web.validation.AcceptTerms;
 import xq.yiesko.forms.web.validation.ValidDate;
 import xq.yiesko.forms.web.validation.ValidEmail;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -74,6 +76,14 @@ public class FormPageResource {
     public Response listAll() {
         var summaries = service.listAll();
         return Response.ok(summaries).build();
+    }
+
+    @POST
+    @Path("form/delete/{id}")
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        service.deleteById(id);
+        return Response.seeOther(URI.create("/")).build();
     }
 
     private TemplateInstance render(

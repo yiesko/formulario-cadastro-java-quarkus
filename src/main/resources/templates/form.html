@@ -236,6 +236,7 @@
                                 <th>Cidade/UF</th>
                                 <th>Data de nascimento</th>
                                 <th>Cadastro em</th>
+                                <th scope="col">Ações</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -246,6 +247,14 @@
                                 <td>{item.city ?: "-"}{#if item.state} / {item.state}{/if}</td>
                                 <td>{item.birthDateFormatted}</td>
                                 <td>{item.createdAtFormatted}</td>
+                                <td>
+                                    <form method="POST" action="/form/delete/{item.id}" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Tem certeza que deseja excluir o cadastro de {item.fullName}?');">
+                                            <i class="bi bi-trash me-1"></i>Excluir
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             {/for}
                             </tbody>
