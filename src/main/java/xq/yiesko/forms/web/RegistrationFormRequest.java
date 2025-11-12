@@ -3,6 +3,7 @@ package xq.yiesko.forms.web;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.jboss.resteasy.reactive.RestForm;
+import xq.yiesko.forms.domain.RegistrationForm;
 import xq.yiesko.forms.service.dto.RegistrationFormCommand;
 import xq.yiesko.forms.web.validation.AcceptTerms;
 import xq.yiesko.forms.web.validation.ValidDate;
@@ -101,6 +102,22 @@ public class RegistrationFormRequest {
     public RegistrationFormRequest withDefaults() {
         if (aceite == null) aceite = Boolean.TRUE;
         return this;
+    }
+
+    public static RegistrationFormRequest fromEntity(RegistrationForm entity) {
+        var request = new RegistrationFormRequest();
+        request.nomeCompleto = entity.getFullName();
+        request.endereco = entity.getAddress();
+        request.rua = entity.getStreet();
+        request.numero = entity.getHouseNumber();
+        request.dataNascimento = entity.getBirthDate() != null 
+            ? formatForInput(entity.getBirthDate()) 
+            : null;
+        request.email = entity.getEmail();
+        request.cidade = entity.getCity();
+        request.estado = entity.getState();
+        request.aceite = entity.isAcceptedTerms();
+        return request;
     }
 
     private String trimToNull(

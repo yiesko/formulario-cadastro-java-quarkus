@@ -57,8 +57,30 @@ public class RegistrationFormService {
     }
 
     @Transactional
-    public boolean deleteById(Long id) {
-        return repository.deleteById(id);
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public RegistrationForm findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Transactional
+    public RegistrationForm update(Long id, RegistrationFormCommand command) {
+        var entity = repository.findById(id);
+        if (entity == null) return null;
+        
+        entity.setFullName(command.fullName());
+        entity.setAddress(command.address());
+        entity.setStreet(command.street());
+        entity.setHouseNumber(command.houseNumber());
+        entity.setBirthDate(command.birthDate());
+        entity.setEmail(command.email());
+        entity.setCity(command.city());
+        entity.setState(command.state());
+        entity.setAcceptedTerms(command.acceptedTerms());
+        
+        return entity;
     }
 
     private RegistrationFormSummary toSummary(

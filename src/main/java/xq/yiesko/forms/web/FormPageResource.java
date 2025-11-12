@@ -47,9 +47,9 @@ public class FormPageResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance index() {
+    public TemplateInstance index(@QueryParam("success") String successMessage) {
         var request = new RegistrationFormRequest().withDefaults();
-        return render(request, Map.of(), null);
+        return render(request, Map.of(), successMessage);
     }
 
     @POST
@@ -81,9 +81,54 @@ public class FormPageResource {
     @POST
     @Path("form/delete/{id}")
     @Transactional
-    public Response delete(@PathParam("id") Long id) {
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance delete(@PathParam("id") Long id) {
+        var entity = service.findById(id);
+        if (entity == null) {
+            var cleanForm = new RegistrationFormRequest().withDefaults();
+            return render(cleanForm, Map.of(), null);
+        }
+        
+        var fullName = entity.getFullName();
         service.deleteById(id);
-        return Response.seeOther(URI.create("/")).build();
+        
+        var cleanForm = new RegistrationFormRequest().withDefaults();
+        var successMessage = "Cadastro de %s excluído com sucesso.".formatted(fullName);
+        return render(cleanForm, Map.of(), successMessage);
+    }
+
+    @GET
+    @Path("form/edit/{id}")
+    @Produces(MediaType.TEXT_HTML)
+    public Response edit(@PathParam("id") Long id) {
+        var entity = service.findById(id);
+        if (entity == null) return Response.seeOther(URI.create("/")).build();
+        
+        var request = RegistrationFormRequest.fromEntity(entity);
+        return Response.ok(renderForEdit(request, Map.of(), entity.getId())).build();
+    }
+
+    @POST
+    @Path("form/update/{id}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    @Transactional
+    public TemplateInstance update(
+            @PathParam("id") Long id,
+            @BeanParam RegistrationFormRequest request
+    ) {
+        var errors = collectErrors(request);
+        if (!errors.isEmpty()) return renderForEdit(request, errors, id);
+
+        var updated = service.update(id, request.toCommand());
+        if (updated == null) {
+            var cleanForm = new RegistrationFormRequest().withDefaults();
+            return render(cleanForm, Map.of(), null);
+        }
+
+        var cleanForm = new RegistrationFormRequest().withDefaults();
+        var successMessage = "Cadastro atualizado com sucesso para %s.".formatted(updated.getFullName());
+        return renderAfterUpdate(cleanForm, successMessage);
     }
 
     private TemplateInstance render(
@@ -95,9 +140,42 @@ public class FormPageResource {
         return form.data("form", formData)
                 .data("errors", errors)
                 .data("successMessage", successMessage)
+                .data("alertType", "success")
                 .data("hasErrors", !errors.isEmpty())
                 .data("registrations", registrations)
-                .data("today", LocalDate.now());
+                .data("today", LocalDate.now())
+                .data("editingId", null);
+    }
+
+    private TemplateInstance renderForEdit(
+            RegistrationFormRequest formData,
+            Map<String, String> errors,
+            Long editingId
+    ) {
+        var registrations = service.listLatest(5);
+        return form.data("form", formData)
+                .data("errors", errors)
+                .data("successMessage", null)
+                .data("alertType", "info")
+                .data("hasErrors", !errors.isEmpty())
+                .data("registrations", registrations)
+                .data("today", LocalDate.now())
+                .data("editingId", editingId);
+    }
+
+    private TemplateInstance renderAfterUpdate(
+            RegistrationFormRequest formData,
+            String successMessage
+    ) {
+        var registrations = service.listLatest(5);
+        return form.data("form", formData)
+                .data("errors", Map.of())
+                .data("successMessage", successMessage)
+                .data("alertType", "info")
+                .data("hasErrors", false)
+                .data("registrations", registrations)
+                .data("today", LocalDate.now())
+                .data("editingId", null);
     }
 
     private Map<String, String> collectErrors(

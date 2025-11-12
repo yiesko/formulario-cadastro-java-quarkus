@@ -6,6 +6,15 @@
         <div class="col-lg-8 col-xl-6">
             <div class="card p-4 border rounded-3" style="border-color: #dadce0 !important;">
                 <div class="card-body">
+                    {#if editingId}
+                    <h1 class="mb-4 text-center">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Editar Cadastro
+                    </h1>
+                    <p class="text-muted mb-4">
+                        Atualize os dados abaixo conforme necessário.
+                    </p>
+                    {#else}
                     <h1 class="mb-4 text-center">
                         <i class="bi bi-journal-text me-2"></i>
                         Formulário de cadastro
@@ -13,6 +22,7 @@
                     <p class="text-muted mb-4">
                         Preencha os dados abaixo para conhecermos você melhor.
                     </p>
+                    {/if}
 
                     {#if successMessage}
                     <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -28,7 +38,11 @@
                     </div>
                     {/if}
 
+                    {#if editingId}
+                    <form action="/form/update/{editingId}" method="post" novalidate>
+                    {#else}
                     <form action="/" method="post" novalidate>
+                    {/if}
                         <div class="mb-3">
                             <label class="form-label" for="nomeCompleto">
                                 <i class="bi bi-person-vcard me-1"></i>Nome completo
@@ -206,9 +220,20 @@
                             {/if}
                         </div>
 
+                        {#if editingId}
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-check-circle me-1"></i>Atualizar
+                            </button>
+                            <a href="/" class="btn btn-secondary">
+                                <i class="bi bi-x-circle me-1"></i>Cancelar
+                            </a>
+                        </div>
+                        {#else}
                         <button class="btn btn-primary w-100 mt-2" type="submit">
                             <i class="bi bi-send-plus me-1"></i>Cadastrar
                         </button>
+                        {/if}
                     </form>
                 </div>
             </div>
@@ -248,6 +273,9 @@
                                 <td>{item.birthDateFormatted}</td>
                                 <td>{item.createdAtFormatted}</td>
                                 <td>
+                                    <a href="/form/edit/{item.id}" class="btn btn-primary btn-sm me-1">
+                                        <i class="bi bi-pencil me-1"></i>Editar
+                                    </a>
                                     <form method="POST" action="/form/delete/{item.id}" style="display: inline;">
                                         <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Tem certeza que deseja excluir o cadastro de {item.fullName}?');">
