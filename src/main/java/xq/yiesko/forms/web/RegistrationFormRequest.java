@@ -75,6 +75,8 @@ public class RegistrationFormRequest {
     public Boolean aceite;
 
     public RegistrationFormCommand toCommand() {
+        if (estado != null && !estado.isBlank()) estado = estado.trim().toUpperCase();
+        
         return new RegistrationFormCommand(
                 trimToNull(nomeCompleto),
                 trimToNull(endereco),
